@@ -4,4 +4,4 @@ Author: Weifeng Li, Tiffany Tse
 Project Description:
   Honestly, a uno game.
  
-For study only, no bussiness uses allowed
+For STUDY ONLY , NO BUSINESS USES allowed
