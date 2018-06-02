@@ -5,11 +5,14 @@ import org.newdawn.slick.geom.Rectangle;
 
 public class Button{
 	private Image background;
+	
+	private boolean disable;
+	
 	private int x;
 	private int y;
 	private int length;
 	private int width;
-	private boolean selected;
+	//private boolean selected;
 	Button(Image image, int x, int y)
 	{
 		this.background = image;		
@@ -17,26 +20,32 @@ public class Button{
 		this.width = this.background.getHeight();
 		this.x = x - length/2;
 		this.y = y - width/2;	
+		System.out.println(true);
 		
 	}
 	
 	public int getX()
-	{
-		return x;
-	}
+	{	return x;}
 	
 	public int getY()
-	{
-		return y;
-	}
+	{	return y;}
 	
 	public Image getImage()
-	{
-		return background;
-	}
+	{	return background;}
+	
+	public int getWidth()
+	{	return this.length;}
+	
+	public int getHeight()
+	{	return this.width;}
+	
+	public void show()
+	{this.background.draw(this.x, this.y);}
 	
 	public boolean clicked(int height)throws InterruptedException
 	{
+		if(disable)
+			return false;
 		Input in = new Input(height);
 	
 		if(in.isMouseButtonDown(in.MOUSE_LEFT_BUTTON))
@@ -50,5 +59,17 @@ public class Button{
 		}
 		return false;
 	}
+	
+	public void disable()
+	{
+		this.disable = true;
+	}
+	
+	public void enable()
+	{
+		this.disable = false;
+	}
+	
+	
 
 }

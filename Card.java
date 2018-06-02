@@ -2,19 +2,38 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import java.io.File;
 import java.io.FileNotFoundException;
-public class Card {
+import java.util.Scanner;
+public class Card implements Comparable{
 	private Button cardUI;
 	private String name;
-	private boolean selected;
+	public boolean selected;
 	public Card(String name,int x, int y) throws SlickException, FileNotFoundException
 	{
 		this.name = name;
 		this.cardUI = new Button(new Image(getPathbyName()),x , y);
 	}
 	
+	public Card(Card other)
+	{
+		this.name = other.name;
+		this.cardUI = other.cardUI;
+		this.selected = other.selected;
+	}
+	
+	public Card(String name) throws FileNotFoundException, SlickException
+	{
+		this.name = name;
+		this.cardUI = new Button(new Image(getPathbyName()),0 , 0);
+	}
+	
 	public Button getUI()
 	{
 		return cardUI;
+	}
+	
+	public void select()
+	{
+		this.selected = !this.selected;
 	}
 	
 	private String getPathbyName() throws FileNotFoundException
@@ -30,25 +49,54 @@ public class Card {
 			}
 			
 		}
-		throw new FileNotFoundException("file not found");
-		
+		throw new FileNotFoundException("file not found");		
 	}
 	
-	public void showImage(int x, int y)
+	public void showImage()
 	{
-		this.cardUI.getImage().draw(x,y);
+		this.cardUI.show();
 	}
 	
-	public void select()
+	public void showImage(int y)
 	{
-		this.selected = !this.selected;
-	}	
+		this.cardUI.getImage().draw((this.cardUI.getX()), 
+				y - this.cardUI.getHeight()/2);
+	}
 	
-	public void Card(Card other)
+	public String getName()
 	{
-		this.name = other.name;
-		this.cardUI = other.cardUI;
-		this.selected = other.selected;
+		return this.name;
+	}
+
+	
+	
+	
+	public boolean click(int height) throws InterruptedException
+	{
+		return this.cardUI.clicked(height);
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		Card temp = (Card)o;
+		Scanner other = new Scanner(temp.getName());
+		Scanner ori = new Scanner(this.getName());
+		if(other.next().equals(ori.next()))
+		{
+			other.close();
+			ori.close();
+			return 0;
+			
+		}
+		else if(other.next().equals(ori.next()))
+		{
+			other.close();
+			ori.close();
+			return 1;
+		}
+		other.close();
+		ori.close();
+		return -1;
 	}
 	
 }
