@@ -36,10 +36,10 @@ public class GameControl {
 	{
 		Random r = new Random();
 		String[] names = {"green 0", "green 1", "green 2", "green 3", "green 4",
-						  "green 5", "red 0", "red 1", "red 2", "red 3", "red 4",
-						  "red 5","blue 0", "blue 1", "blue 2", "blue 3", "blue 4",
-						  "blue 5","yellow 0", "yellow 1", "yellow 2", "yellow 3", 
-						  "yellow 4","yellow 5", "PlusFour","PlusFour","PlusFour","PlusFour"};
+				  		  "red 0", "red 1", "red 2", "red 3", "red 4",
+						  "blue 0", "blue 1", "blue 2", "blue 3", "blue 4",
+				                  "yellow 0", "yellow 1", "yellow 2", "yellow 3", 
+						  "yellow 4", "PlusFour","PlusFour","PlusFour","PlusFour"};
 		for(int i = 0; i < names.length; i++)
 		{
 			int tmp = r.nextInt(28);
