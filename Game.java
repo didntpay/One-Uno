@@ -18,7 +18,7 @@ public class Game extends BasicGame {
 	private Image playbackground;
 	private Image About_Us;
 	
-	public Card currentCard;
+	public Card lastCard;
 	
 	private Button startbutton = null;
 	private Button putdown;
@@ -95,8 +95,8 @@ public class Game extends BasicGame {
 				{
 					if(putdown.clicked(gameHeight) && !picked.getName().equals(currentCard.getName()))
 					{
-						currentCard = picked;
-						players[i].played();//should put in card as param
+						lastCard = picked;
+						players[i].played(picked);//should put in card as param
 						//implement the case of plus four card, after implementing
 						//a smarter logic for AI
 						won();
