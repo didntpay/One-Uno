@@ -24,9 +24,9 @@ public class Player {
 	{    
 		for(int i = 0; i < playerhand.size(); i++){
 			if(playerhand.get(i).compareTo(currentCard) != -1){
-				return false;
-			}else{
 				return true;
+			}else{
+				return false;
 			}
 		}
 	}
@@ -37,6 +37,7 @@ public class Player {
 	public void played(Card picked) {
 
 		playerhand.remove(picked);
+		count--;
 		
 	}
 	
