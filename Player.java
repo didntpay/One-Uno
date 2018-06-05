@@ -13,7 +13,7 @@ public class Player {
 	
 	public void add(String name)
 	{
-		playerhand.add(name);
+		playerhand.add(new Card(name));
 	}
 	public int getCount()
 	{
