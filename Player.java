@@ -3,11 +3,22 @@ import java.util.ArrayList;
 public class Player {
 	private ArrayList<Card> playerhand;
 	public boolean AI;
+	private int count;
+	
+	public Player(){
+		playerhand;
+		count = playerhand.size();
+		
+	}
+	
 	public void add(String name)
-	{}
+	{
+		playerhand.add(name);
+	}
 	public int getCount()
 	{
-		return 0;
+		
+		return count;
 	}
 	public boolean contain(Card currentCard)
 	{
@@ -17,8 +28,9 @@ public class Player {
 	{
 		return playerhand;
 	}
-	public void played() {
-		// TODO Auto-generated method stub
+	public void played(Card picked) {
+
+		playerhand.remove(picked);
 		
 	}
 	
