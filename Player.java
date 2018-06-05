@@ -21,7 +21,9 @@ public class Player {
 		return count;
 	}
 	public boolean contain(Card currentCard)
-	{
+	{    // need to fix
+		for(int i = 0; i < playerhand.size(); i++){
+			if(playerhand.get(i).compareTo(currentCard))
 		return true;
 	}
 	public ArrayList<Card> getList()
