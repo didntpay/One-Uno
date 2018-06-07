@@ -14,6 +14,7 @@ public class Player {
 		AI = false;
 	}
 	
+	//Adds card to player's hand
 	public void add(Card card)
 	{
 		try {
@@ -28,11 +29,14 @@ public class Player {
 	{
 		this.AI = true;
 	}
+	
 	public int getCount()
 	{
 		
 		return this.count;
 	}
+	
+	//A compare to methof that checks whether a card in the nad matches in either number or color
 	public boolean contain (Card currentCard)
 	{    
 
@@ -49,10 +53,13 @@ public class Player {
 		}
 		return false;
 	}
+	
+	
 	public ArrayList<Card> getList()
 	{
 		return this.playerhand;
 	}
+	
 	public void played(Card picked) {
 		this.playerhand.remove(picked);
 		this.count--;
