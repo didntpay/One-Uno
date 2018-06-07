@@ -12,23 +12,24 @@ public class Button{
 	private int y;
 	private int length;
 	private int width;
-	//private boolean selected;
+	
+
 	Button(Image image, int x, int y)
 	{
+		
 		this.background = image;		
 		this.length = this.background.getWidth();
 		this.width = this.background.getHeight();
-		this.x = x - length/2;
-		this.y = y - width/2;	
-		System.out.println(true);
-		
+		this.x = x;
+		this.y = y;	
+		this.disable = false;
 	}
-	
-	public int getX()
-	{	return x;}
-	
-	public int getY()
-	{	return y;}
+
+	public void setY(int newy)
+	{
+		this.y = newy;
+	}
+
 	
 	public Image getImage()
 	{	return background;}
@@ -40,20 +41,19 @@ public class Button{
 	{	return this.width;}
 	
 	public void show()
-	{this.background.draw(this.x, this.y);}
+	{	this.background.draw(this.x, this.y);}
 	
 	public boolean clicked(int height)throws InterruptedException
 	{
 		if(disable)
 			return false;
 		Input in = new Input(height);
-	
-		if(in.isMouseButtonDown(in.MOUSE_LEFT_BUTTON))
-		{
-			Thread.sleep(100);
+		
+		if(in.isMouseButtonDown(in.MOUSE_LEFT_BUTTON))//called too many times
+		{			
+			Thread.sleep(50);
 			int mouX = in.getMouseX();
 			int mouY = in.getMouseY();
-			
 			Rectangle uncovered = new Rectangle(x,y,length,width);
 			return uncovered.contains(mouX, mouY);
 		}

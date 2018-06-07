@@ -1,16 +1,17 @@
-import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Random;
-
-import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 public class GameControl {
-	public final int x = 0;//starting coordinate of the listing
-	public final int y = 0;
-	public boolean running;
-	private Player[] playerlist;
+	public final int startx = 160;//starting coordinate of the listing
+	public final int starty = 682;
+	public final int xOffset = 110;
 	private int indexof;
+	
+	public boolean running;
 	private boolean init;
+	
+	private Player[] playerlist;	
 	private Card[] cardlist;
 	GameControl(Player player1, Player player2) throws SlickException
 	{
@@ -18,7 +19,8 @@ public class GameControl {
 		this.playerlist = new Player[2];
 		playerlist[0] = player1;
 		playerlist[1] = player2;
-		this.cardlist = new Card[28];
+		playerlist[1].setAI();
+		this.cardlist = new Card[20];
 	}
 	
 	public void Start()
@@ -32,33 +34,37 @@ public class GameControl {
 		return playerlist;
 	}
 	
-	public void CardInit() throws FileNotFoundException, SlickException
+	public void CardInit()
 	{
 		Random r = new Random();
-		String[] names = {"green 0", "green 1", "green 2", "green 3", "green 4",
-				  		  "red 0", "red 1", "red 2", "red 3", "red 4",
-						  "blue 0", "blue 1", "blue 2", "blue 3", "blue 4",
-				                  "yellow 0", "yellow 1", "yellow 2", "yellow 3", 
-						  "yellow 4", "PlusFour","PlusFour","PlusFour","PlusFour"};
+		String[] names = {"green 0", "green 1", "green 2", "green 3", "red 0", "red 1", 
+				"red 2", "red 3","blue 0", "blue 1", "blue 2", "blue 3",
+				"yellow 0", "yellow 1", "yellow 2", "yellow 3", 
+				"plus 4","plus 4","plus 4","plus 4"};
+		
 		for(int i = 0; i < names.length; i++)
 		{
-			int tmp = r.nextInt(28);
-			if(tmp == i)
+			int tmp = r.nextInt(20);
+			if(tmp == i && tmp != names.length - 1)
 				tmp++;
 			String storage = names[i];
 			names[i] = names[tmp];
 			names[tmp] = storage;
 		}
+		
 		for(int i = 0; i < names.length; i++)
 		{
 			if(this.cardlist[i] == null)
 			{
 				try
 				{
-					this.cardlist[i] = new Card(names[i],x + i * 50,y);
+					this.cardlist[i] = new Card(names[i], startx + i * xOffset, starty);					
+					//***DO NOT PUT IN A POS WHEN INITALIZED, DO THAT WHEN PLAYER HAS*** 
+					//***HIS OWN HAND***
 				}
 				catch(Exception e)
 				{
+					//e.printStackTrace();
 					i--;
 				}
 			}
@@ -72,8 +78,10 @@ public class GameControl {
 			return;
 		for(int i = 0; i < 14; i += 2)
 		{
-			playerlist[0].add(cardlist[i].getName());
-			playerlist[1].add(cardlist[i+1].getName());
+			playerlist[0].add(cardlist[i]);
+			cardlist[i] = null;
+			playerlist[1].add(cardlist[i + 1]);
+			cardlist[i+1] = null;
 		}
 		this.indexof = 14;		
 	}
@@ -86,9 +94,11 @@ public class GameControl {
 	
 	public void passOne(int playerindex)
 	{
+		if(!this.running)
+			return;
 		if(this.indexof < this.cardlist.length)
 		{
-			playerlist[playerindex].add(cardlist[this.indexof].getName());
+			playerlist[playerindex].add(cardlist[this.indexof]);
 			cardlist[this.indexof] = null;
 			this.indexof++;
 			deckFinished();
@@ -99,11 +109,9 @@ public class GameControl {
 	{
 		if(cardlist[cardlist.length-1] == null)
 		{
-			try {
-				this.CardInit();
-			} catch (FileNotFoundException | SlickException e) {
-				e.printStackTrace();
-			}
+			
+			this.CardInit();
+			
 		}
 	}
 	
@@ -121,17 +129,25 @@ public class GameControl {
 		return -1;
 	}
 	
-	public void listCard(int startY)
+	public void listCard()
 	{
-		Card[] tmp =(Card[]) playerlist[0].getList().toArray();
-		for(Card c : tmp)
+		if(!running)
+			return;
+		ArrayList<Card> tmp = playerlist[0].getList();
+		for(int i = 0; i < tmp.size(); i++)
 		{
-			if(!c.selected)
+			if(!tmp.get(i).selected)
 			{
-				c.showImage();
+				tmp.get(i).showImage(startx + i * xOffset, starty);
+				tmp.get(i).getUI().setY(starty);
+				
 			}
+				
 			else
-				c.showImage(startY);
+			{
+				tmp.get(i).showImage(startx + i * xOffset, starty - 30);
+				tmp.get(i).getUI().setY(starty - 30);
+			}
 		}
 	}
 	

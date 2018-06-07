@@ -3,14 +3,16 @@ import org.newdawn.slick.SlickException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
-public class Card implements Comparable{
+public class Card extends Object implements Comparable<Card>{
 	private Button cardUI;
 	private String name;
 	public boolean selected;
 	public Card(String name,int x, int y) throws SlickException, FileNotFoundException
 	{
+		
 		this.name = name;
-		this.cardUI = new Button(new Image(getPathbyName()),x , y);
+		this.cardUI = new Button(new Image(getPathbyName(this.name)),x,y);
+		this.selected = false;
 	}
 	
 	public Card(Card other)
@@ -20,11 +22,7 @@ public class Card implements Comparable{
 		this.selected = other.selected;
 	}
 	
-	public Card(String name) throws FileNotFoundException, SlickException
-	{
-		this.name = name;
-		this.cardUI = new Button(new Image(getPathbyName()),0 , 0);
-	}
+
 	
 	public Button getUI()
 	{
@@ -36,14 +34,13 @@ public class Card implements Comparable{
 		this.selected = !this.selected;
 	}
 	
-	private String getPathbyName() throws FileNotFoundException
+	private String getPathbyName(String givenname) throws FileNotFoundException
 	{
 		File dir = new File("Images");
 		File[] files = dir.listFiles();
-		System.out.println(files[0].getName());
 		for(File tmp : files)
 		{
-			if(tmp.getName().equals(this.name + ".PNG"))
+			if(tmp.getName().equals(givenname + ".PNG"))
 			{
 				return tmp.getPath();
 			}
@@ -52,17 +49,11 @@ public class Card implements Comparable{
 		throw new FileNotFoundException("file not found");		
 	}
 	
-	public void showImage()
+	public void showImage(int x, int y)
 	{
-		this.cardUI.show();
+		this.cardUI.getImage().draw(x, y);
 	}
-	
-	public void showImage(int y)
-	{
-		this.cardUI.getImage().draw((this.cardUI.getX()), 
-				y - this.cardUI.getHeight()/2);
-	}
-	
+
 	public String getName()
 	{
 		return this.name;
@@ -73,12 +64,17 @@ public class Card implements Comparable{
 	
 	public boolean click(int height) throws InterruptedException
 	{
+		
 		return this.cardUI.clicked(height);
 	}
 
 	@Override
-	public int compareTo(Object o) {
-		Card temp = (Card)o;
+	public int compareTo(Card o) {
+		Card temp = o;
+		if(o == null)
+		{
+			return 0;
+		}
 		Scanner other = new Scanner(temp.getName());
 		Scanner ori = new Scanner(this.getName());
 		if(other.next().equals(ori.next()))

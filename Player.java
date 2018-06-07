@@ -1,4 +1,7 @@
+
 import java.util.ArrayList;
+
+
 
 public class Player {
 	private ArrayList<Card> playerhand;
@@ -6,38 +9,53 @@ public class Player {
 	private int count;
 	
 	public Player(){
-		playerhand;
+		playerhand = new ArrayList<Card>();
 		count = playerhand.size();
-		
+		AI = false;
 	}
 	
-	public void add(String name)
+	public void add(Card card)
 	{
-		playerhand.add(new Card(name));
+		try {
+			this.playerhand.add(card);
+			this.count++;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void setAI()
+	{
+		this.AI = true;
 	}
 	public int getCount()
 	{
 		
-		return count;
+		return this.count;
 	}
-	public boolean contain(Card currentCard)
+	public boolean contain (Card currentCard)
 	{    
-		for(int i = 0; i < playerhand.size(); i++){
-			if(playerhand.get(i).compareTo(currentCard) != -1){
+
+		for(int  i = 0; i < this.count; i++)
+		{
+			if(this.playerhand.get(i).compareTo(currentCard) != -1)
+			{
 				return true;
-			}else{
-				return false;
 			}
+			else if(this.playerhand.get(i).getName().equals("Plus4"))
+				return true;
+			else
+				return false;
 		}
+		return false;
 	}
 	public ArrayList<Card> getList()
 	{
-		return playerhand;
+		return this.playerhand;
 	}
 	public void played(Card picked) {
-
-		playerhand.remove(picked);
-		count--;
+		this.playerhand.remove(picked);
+		this.count--;
 		
 	}
 	
