@@ -1,4 +1,6 @@
-
+/*Button Object that gives the basic methods to be used for various things within
+the game such as the cards, the start button, and so on
+*/
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
@@ -13,7 +15,7 @@ public class Button{
 	private int length;
 	private int width;
 	
-
+//Sets the image for button at x, y
 	Button(Image image, int x, int y)
 	{
 		
@@ -25,12 +27,12 @@ public class Button{
 		this.disable = false;
 	}
 
+	//Sets y to new y, used with UNO cards, when after selected, cards shift up
 	public void setY(int newy)
 	{
 		this.y = newy;
 	}
 
-	
 	public Image getImage()
 	{	return background;}
 	
@@ -43,6 +45,7 @@ public class Button{
 	public void show()
 	{	this.background.draw(this.x, this.y);}
 	
+	//Returns a boolean depending on whether the button is clicked or not
 	public boolean clicked(int height)throws InterruptedException
 	{
 		if(disable)
